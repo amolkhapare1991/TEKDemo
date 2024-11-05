@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { Board } from './components/board/board';
 import { Dice } from './components/dice/dice';
+import { Players } from './components/players/players';
 
 export const snakeAndLadders = {
   snakes: {
@@ -32,11 +33,24 @@ const checkForSnakesAndLadders = (position) => {
 }
 
 function App() {
-  const [players, setPlayers] = useState([{id:1, position:0, rollHistory: [], positionHistory:[]}, {id:2, position:0, rollHistory: [], positionHistory:[]}])
+  const [numPlayers, setNumPlayers] = useState(2)
+  const [players, setPlayers] = useState([])
   const [currentPlayer, setCurrentPlayer] = useState(0)
   const [consecutiveSixes, setConsecutiveSixes] = useState(0)
+  const [gameStarted, setGameStarted] = useState(false)
   const [playerWins, setPlayerWins] = useState(0)
   const [message, setMessage] = useState(null)
+
+  const startGame = () => {
+    const initialPlayers = Array.from({ length: numPlayers }, (_, i) => ({
+      id: i + 1,
+      position: 0,
+      rollHistory: [],
+      positionHistory: []
+    }))
+    setPlayers(initialPlayers);
+    setGameStarted(true)
+  }
 
   const handleDiceRoll = (roll) => {
     const updatedPlayers = [...players]
@@ -57,8 +71,8 @@ function App() {
     player.positionHistory.push(newPosition>100 ? 100 : newPosition)
 
     if(newPosition >=100) {
-      alert(`Player ${currentPlayer + 1} wins`)
       setPlayerWins(1)
+      alert(`Player ${currentPlayer + 1} wins`)
       return;
     }
 
@@ -91,6 +105,10 @@ function App() {
   return (
     <div className="App">
       <h1>Multiplayer Snake and Ladder Game</h1>
+      {!gameStarted ? (
+        <Players numPlayers={numPlayers} setNumPlayers={setNumPlayers} startGame={startGame}/>
+      ):
+      (<div>
       <h5>Message: {message}</h5>
       <Board players={players}/>
       <Dice onRoll={handleDiceRoll}/>
@@ -104,6 +122,8 @@ function App() {
           )}
         </ul>
       }
+      </div>)
+}
     </div>
   );
 }

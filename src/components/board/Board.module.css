@@ -14,14 +14,19 @@
     font-size: 12px;
 }
 
-.square.special {
-    background-color: gray;
+.square.snake {
+    background-color: red;
+}
+
+.square.ladder {
+    background-color: green;
 }
 
 .player {
+    font-size: 14px;
     position: absolute;
     bottom: 5px;
-    color: red
+    color: blue;
 }
 
 .player-1 {

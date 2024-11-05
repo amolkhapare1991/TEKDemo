@@ -5,10 +5,10 @@ import { snakeAndLadders } from '../../App';
   export const Board = ({players}) => {
         const renderSquare = (index) => {
             const playerOnSquare = players.find(player => player.position === index )
-            const isSnakeOrLadder = snakeAndLadders.snakes.hasOwnProperty(index) || snakeAndLadders.ladders.hasOwnProperty(index)
-            console.log(111, playerOnSquare)
+            const isSnake = snakeAndLadders.snakes.hasOwnProperty(index) 
+            const isLadder = snakeAndLadders.ladders.hasOwnProperty(index)
             return(
-                <div className={`${styles.square} ${isSnakeOrLadder ? styles.special : ''}`} key={index}>
+                <div className={`${styles.square} ${isSnake ? styles.snake : ''} ${isLadder ? styles.ladder : ''}`} key={index}>
                     <span>{index}</span>
                     {playerOnSquare && <div className={`${styles.player} ${styles.player-playerOnSquare.id}`}>P{playerOnSquare.id}</div>}
                 </div>
